@@ -30,7 +30,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
-          title: const Text('Video Sin fondo'),
+          title: const Text('Video Sin fondo.'),
         ),
         body: Center(
           child: Padding(
