@@ -42,7 +42,7 @@ class HomeScreen extends StatelessWidget {
  Future<void> uploadVideo(File videoFile) async {
     var request = http.MultipartRequest(
       'POST',
-      Uri.parse('http://10.12.25.73:3000/upload'),
+      Uri.parse('http://192.168.1.104:3000/upload'),
     );
     request.files
         .add(await http.MultipartFile.fromPath('video', videoFile.path));

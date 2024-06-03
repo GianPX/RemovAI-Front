@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:removai/video_downloader.dart';
 import 'package:removai/home_screen.dart';
-import 'package:removai/video_screen.dart';
 
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
   runApp(const MainApp());
 }
 
@@ -16,7 +20,7 @@ class MainApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
           '/':(context)=> const HomeScreen(),
-          '/video':(context)=> const VideoPlayerScreen(),
+          '/video':(context)=> const PlayVideoFromVimeo(),
       }
     );
   }
