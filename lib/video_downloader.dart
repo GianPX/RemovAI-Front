@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:hive/hive.dart';
@@ -8,16 +9,23 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:pod_player/pod_player.dart';
 
 class PlayVideoFromVimeo extends StatefulWidget {
-  const PlayVideoFromVimeo({Key? key}) : super(key: key);
+  String? url;
+
+  PlayVideoFromVimeo({super.key, required this.url});
 
   @override
-  State<PlayVideoFromVimeo> createState() => _PlayVideoFromVimeoState();
+  // ignore: no_logic_in_create_state
+  State<PlayVideoFromVimeo> createState() =>
+      _PlayVideoFromVimeoState(url1: url);
 }
 
 class _PlayVideoFromVimeoState extends State<PlayVideoFromVimeo> {
   late final Dio dio;
   double _progress = 0.0;
   String? _videoFilePath;
+  String? url1;
+
+  _PlayVideoFromVimeoState({required this.url1});
 
   @override
   void initState() {
@@ -31,9 +39,7 @@ class _PlayVideoFromVimeoState extends State<PlayVideoFromVimeo> {
   }
 
   Future<void> _downloadAndSaveVideo() async {
-    String url =
-        'http://192.168.1.104:3000/download';
-
+    final url = url1 as String;
     try {
       Directory appDocDir = await getApplicationDocumentsDirectory();
       String savePath = appDocDir.path + '/video.mp4';
@@ -57,12 +63,9 @@ class _PlayVideoFromVimeoState extends State<PlayVideoFromVimeo> {
         _videoFilePath = savePath;
       });
 
-
       // Save the file path to Hive
       final box = await Hive.openBox<String>('videos');
       box.put('video_path', savePath);
-
-
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -78,7 +81,6 @@ class _PlayVideoFromVimeoState extends State<PlayVideoFromVimeo> {
       );
     }
   }
-
 
   Future<void> _playVideoFromHive() async {
     // Retrieve the file path from Hive
@@ -124,11 +126,10 @@ class _PlayVideoFromVimeoState extends State<PlayVideoFromVimeo> {
               ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _downloadAndSaveVideo,
-              child: Text("Download and Save Video"),
-            ),
-            ElevatedButton(
-              onPressed: _playVideoFromHive,
+              onPressed: () {
+                // _downloadAndSaveVideo();
+                _playVideoFromHive();
+              },
               child: Text("Play Video"),
             ),
           ],
@@ -148,15 +149,15 @@ class VideoPlayerScreen extends StatefulWidget {
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
-  late final PodPlayerController _controller;
+  late final FlickManager _controller;
 
   @override
-  void initState()  {
-
+  void initState() {
     super.initState();
-    _controller = PodPlayerController(
-      playVideoFrom: PlayVideoFrom.file(File(widget.videoFilePath)),
-    )..initialise();
+    _controller = FlickManager(
+      videoPlayerController:
+          VideoPlayerController.networkUrl(Uri.parse(widget.videoFilePath)),
+    );
   }
 
   @override
@@ -169,9 +170,26 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Video Player'),
+        title: const Text('Video Player'),
       ),
-      body: PodVideoPlayer(controller: _controller),
+      body: Center(
+          child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          children: [
+            const SizedBox(height: 50),
+            ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: SizedBox(
+                    height: 350,
+                    width: 380,
+                    child: FlickVideoPlayer(flickManager: _controller))),
+            const SizedBox(height: 40),
+            OutlinedButton(onPressed: () {}, child: const Text('Descargar'))
+          ],
+        ),
+      )),
     );
   }
+
 }

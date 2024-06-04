@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:removai/video_downloader.dart';
 import 'package:removai/home_screen.dart';
 
 
@@ -20,7 +18,6 @@ class MainApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
           '/':(context)=> const HomeScreen(),
-          '/video':(context)=> const PlayVideoFromVimeo(),
       }
     );
   }
