@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            const Text('Seleccione el video que desea remover el fondo',maxLines: 3, style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
             OutlinedButton(
                 onPressed: () async {
                 final video = File(await pickVideo(context));
