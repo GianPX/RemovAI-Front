@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             SizedBox(
               height: 300,
               width: 450,
-              child: OutlinedButton(
+              child: ElevatedButton(
                   onPressed: () async {
                   final video = File(await pickVideo(context));
                   if (await video.exists()) {

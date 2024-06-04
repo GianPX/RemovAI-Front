@@ -112,6 +112,9 @@ class _PlayVideoFromVimeoState extends State<PlayVideoFromVimeo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: Color(0xFF6750A4),
+        titleTextStyle: TextStyle(color: Color(0xFF6750A4), fontSize: 40, fontWeight: FontWeight.bold, fontFamily:"Super"),
+        centerTitle: true,
         title: Text('Download and Play Video'),
       ),
       body: Center(
@@ -125,12 +128,16 @@ class _PlayVideoFromVimeoState extends State<PlayVideoFromVimeo> {
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
               ),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // _downloadAndSaveVideo();
-                _playVideoFromHive();
-              },
-              child: Text("Play Video"),
+            SizedBox(
+              height: 300,
+              width: 450,
+              child: ElevatedButton(
+                onPressed: () {
+                  // _downloadAndSaveVideo();
+                  _playVideoFromHive();
+                },
+                child: Text("Play Video", style:TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+              ),
             ),
           ],
         ),
@@ -170,7 +177,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Video Player'),
+        foregroundColor: Color(0xFF6750A4),
+        titleTextStyle: TextStyle(color: Color(0xFF6750A4), fontSize: 40, fontWeight: FontWeight.bold, fontFamily:"Super"),
+        centerTitle: true,
+        title: Text('Video Player'),
       ),
       body: Center(
           child: Padding(
@@ -185,7 +195,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     width: 380,
                     child: FlickVideoPlayer(flickManager: _controller))),
             const SizedBox(height: 40),
-            OutlinedButton(onPressed: () {}, child: const Text('Descargar'))
+            SizedBox(
+              height: 200,
+              width: 350,
+              child: OutlinedButton(onPressed: () {}, child: const Text('Descargar', style:TextStyle(fontWeight: FontWeight.bold, fontSize: 30))))
           ],
         ),
       )),
