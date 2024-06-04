@@ -13,41 +13,57 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     String? url;
     return Scaffold(
+      //appBar: AppBar(title: const Text('Remove Background AI')),
+       appBar: AppBar(
+        foregroundColor: Color(0xFF6750A4),
+        titleTextStyle: TextStyle(color: Color(0xFF6750A4), fontSize: 65, fontWeight: FontWeight.bold, fontFamily:"Super"),
+        centerTitle: true,
+        title: Text('REMOVE BACKGROUND AI'),
+      ),
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            OutlinedButton(
-                onPressed: () async {
-                final video = File(await pickVideo(context));
-                if (await video.exists()) {
-                  url = await uploadVideo(video);
-                  if (url != null) {
-                    print('Uploaded video URL: $url');
-                    // Use the uploadedUrl variable here (e.g., navigate to a new screen)
+            SizedBox(
+              height: 300,
+              width: 450,
+              child: OutlinedButton(
+                  onPressed: () async {
+                  final video = File(await pickVideo(context));
+                  if (await video.exists()) {
+                    url = await uploadVideo(video);
+                    if (url != null) {
+                      print('Uploaded video URL: $url');
+                      // Use the uploadedUrl variable here (e.g., navigate to a new screen)
+                    } else {
+                      print('Error occurred while uploading or retrieving URL');
+                    }
                   } else {
-                    print('Error occurred while uploading or retrieving URL');
+                    print('Video not found');
                   }
-                } else {
-                  print('Video not found');
-                }
-                },
-                child: const Text(
-                  'Subir archivo',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                )),
+                  },
+                  child: const Text(
+                    'Subir archivo',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  )),
+            ),
             const SizedBox(height: 20),
-            FilledButton(
-                onPressed: () {
-                  url='https://res.cloudinary.com/dddgugfmn/video/upload/v1717472672/bg-removed-video-1717472596409-943119783.webm';
-                  print('URL');
-                  print(url);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PlayVideoFromVimeo(url: url)));
-                },
-                child: const Text('Enviar',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 18))),
+            SizedBox(
+              height: 300,
+              width: 450,
+              child: FilledButton(
+                  onPressed: () {
+                    url='https://res.cloudinary.com/dddgugfmn/video/upload/v1717472672/bg-removed-video-1717472596409-943119783.webm';
+                    print('URL');
+                    print(url);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PlayVideoFromVimeo(url: url)));
+                  },
+                  child: const Text('Enviar',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 30))),
+            ),
           ],
         ),
       ),
